@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SmartEmoh</title>
+</head>
+<body>
+    <button id="room1">room 1</button>
+    <br>
+    <button id="room2">room 2</button>
+    <br>
+    <hr>
+    <button id="on">On</button>
+    <br>
+    <button id="off">Off</button>
+    <br>
+    <div id="status"></div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io();
+        var btnOn = document.querySelector('#on'),
+            btnOff = document.querySelector('#off'),
+            room1 = document.querySelector(('#room1')),
+            room2 = document.querySelector(('#room2')),
+            currentRoom;
+        room1.addEventListener('click', function () {
+            socket.emit('join', 'room1');
+            currentRoom = 'room1';
+        });
+        room2.addEventListener('click', function () {
+            socket.emit('join', 'room2');
+            currentRoom = 'room2';
+        });
+        btnOn.addEventListener('click', function () {
+            socket.emit('on', {
+                status: 1,
+                currentRoom: currentRoom
+            });
+        });
+        btnOff.addEventListener('click', function () {
+            socket.emit('off', {
+                status: 0,
+                currentRoom: currentRoom
+            });
+        });
+        socket.on('on', function (data) {
+            document.querySelector('#status').innerHTML = data.status;
+            console.log(data);
+        });
+        socket.on('off', function (data) {
+            document.querySelector('#status').innerHTML = data.status;
+            console.log(data);
+        });
+    </script>
+</body>
+</html>
