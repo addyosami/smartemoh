@@ -18,13 +18,10 @@ io.on('connection', (socket) => {
     });
 
     socket.on('on', function (data) {
-        console.log(data.currentRoom);
-        // io.to(data.currentRoom + '').emit(data);
         io.to('' + data.currentRoom).emit('on', data);
     });
     socket.on('off', function (data) {
-        console.log(data.currentRoom);
-        io.to('' + data.currentRoom).emit('on', data);
+        io.to('' + data.currentRoom).emit('off', data);
     })
 });
 

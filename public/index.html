@@ -14,6 +14,7 @@
     <br>
     <button id="off">Off</button>
     <br>
+    <div id="room"></div>
     <div id="status"></div>
     <script src="/socket.io/socket.io.js"></script>
     <script>
@@ -26,10 +27,12 @@
         room1.addEventListener('click', function () {
             socket.emit('join', 'room1');
             currentRoom = 'room1';
+            document.querySelector('#room').innerHTML = 'Room: 1';
         });
         room2.addEventListener('click', function () {
             socket.emit('join', 'room2');
             currentRoom = 'room2';
+            document.querySelector('#room').innerHTML = 'Room: 2';
         });
         btnOn.addEventListener('click', function () {
             socket.emit('on', {
@@ -44,12 +47,10 @@
             });
         });
         socket.on('on', function (data) {
-            document.querySelector('#status').innerHTML = data.status;
-            console.log(data);
+            document.querySelector('#status').innerHTML = 'Status: ' + data.status;
         });
         socket.on('off', function (data) {
-            document.querySelector('#status').innerHTML = data.status;
-            console.log(data);
+            document.querySelector('#status').innerHTML = 'Status: ' + data.status;
         });
     </script>
 </body>
